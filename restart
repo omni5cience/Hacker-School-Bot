@@ -1,0 +1,4 @@
+#!/bin/bash
+
+kill -s HUP $(< tmp/HSBot.pid) 2>/dev/null
+ruby bot.rb &>tmp/HSBot.log &
