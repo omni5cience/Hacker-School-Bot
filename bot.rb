@@ -27,15 +27,22 @@ bot = Cinch::Bot.new do
 		end
 	end
 
-	on :message, /([Hh]ello|[Hh]i)/ do |m|
+	on :message, /(HS|HackerSchoolBot)+[: ]+(hello|hi)/i do |m|
 		m.reply "Hello, #{m.user.nick}"
 	end
 
+	on :message, /(HS|HackerSchoolBot)+[: ]+help/i do |m|
+		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, botherEVERYBODY(squash)"
+	end
+
 	on :message, /^!join (.+)/ do |m, channel|
+		bot.logger.debug is_admin?(m.user).to_s
+		m.reply("You're not my mommy!") unless is_admin?(m.user)
 		bot.join(channel) if is_admin?(m.user)
 	end
 
 	on :message, /^!part (.+)/ do |m, channel|
+		m.reply("You're not my mommy!") unless is_admin?(m.user)
 		channel = channel || m.channel
 
 		if channel
@@ -48,7 +55,8 @@ bot = Cinch::Bot.new do
 		everybody = m.channel.users
 		everybody.each do |user, flags|
 			bot.logger.debug user
-			if(user.nick == m.user.nick)
+			bot.logger.debug bot.nick
+			if(user.nick == m.user.nick || user.nick == bot.nick)
 				bot.logger.debug "Nick #{user.nick}"
 			else
 				alertString << " #{user.nick}:"
