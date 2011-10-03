@@ -15,7 +15,7 @@ bot = Cinch::Bot.new do
 		c.nick = "HackerSchoolBot"
 		c.realname = "Hacker School IRC Bot"
 		c.server = "irc.freenode.org"
-		c.channels = ["#HackerSchoolTest"]
+		c.channels = ["#HackerSchool"]
 		c.plugins.plugins = [Identify]
 	end
 
