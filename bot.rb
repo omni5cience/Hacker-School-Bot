@@ -50,6 +50,10 @@ bot = Cinch::Bot.new do
 		end
 	end
 
+	on :message, /^(HS|HackerSchoolBot)[: ]+roll/i do |m|
+		m.reply "3"
+	end
+
 	on :channel, /^(HS|HackerSchoolBot)[: ]+(botherEVERYBODY|squash)/ do |m|
 		alertString = "Hey you!"
 		everybody = m.channel.users
