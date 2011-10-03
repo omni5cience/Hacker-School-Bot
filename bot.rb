@@ -15,7 +15,7 @@ bot = Cinch::Bot.new do
 		c.nick = "HackerSchoolBot"
 		c.realname = "Hacker School IRC Bot"
 		c.server = "irc.freenode.org"
-		c.channels = ["#HackerSchool"]
+		c.channels = ["#HackerSchoolTest"]
 		c.plugins.plugins = [Identify]
 	end
 
@@ -27,7 +27,7 @@ bot = Cinch::Bot.new do
 		end
 	end
 
-	on :message, "!hello" do |m|
+	on :message, /([Hh]ello|[Hh]i)/ do |m|
 		m.reply "Hello, #{m.user.nick}"
 	end
 
@@ -43,7 +43,7 @@ bot = Cinch::Bot.new do
 		end
 	end
 
-	on :channel, "!botherEVERYBODY" do |m|
+	on :channel, /^(HS|HackerSchoolBot)[: ]+(botherEVERYBODY|squash)/ do |m|
 		alertString = "Hey you!"
 		everybody = m.channel.users
 		everybody.each do |user, flags|
@@ -51,7 +51,7 @@ bot = Cinch::Bot.new do
 			if(user.nick == m.user.nick)
 				bot.logger.debug "Nick #{user.nick}"
 			else
-				alertString << " #{user.nick}"
+				alertString << " #{user.nick}:"
 			end
 		end
 		m.reply alertString
