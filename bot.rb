@@ -54,7 +54,11 @@ bot = Cinch::Bot.new do
 		m.reply "3"
 	end
 
-	on :channel, /^(HS|HackerSchoolBot)[: ]+(botherEVERYBODY|squash)/ do |m|
+	on :message, /.*butternut.*/i do |m|
+		m.reply "That command is obsolete use HS:botherEVERYBODY"
+	end
+
+	on :channel, /^(HS|HackerSchoolBot)[: ]+(botherEVERYBODY|squash|timeToGo)/ do |m, pre, command|
 		alertString = "Hey you!"
 		everybody = m.channel.users
 		everybody.each do |user, flags|
@@ -65,6 +69,14 @@ bot = Cinch::Bot.new do
 			else
 				alertString << " #{user.nick}:"
 			end
+		end
+		case command
+		when "timeToGo"
+			alertString << "\nIT'S TIME TO GO!"
+		when "botherEVERYBODY"
+			alertString << "\nPay attention!"
+		when "squash"
+			alertString << "\nI LIKE SQUASH!"
 		end
 		m.reply alertString
 		bot.logger.debug "#{m.user.nick} used the really annoying command"
