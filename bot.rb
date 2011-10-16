@@ -32,7 +32,7 @@ bot = Cinch::Bot.new do
 	end
 
 	on :message, /(HS|HackerSchoolBot)+[: ]+help/i do |m|
-		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, roll, botherEVERYBODY(squash)"
+		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, roll, fairRoll, botherEVERYBODY(squash)"
 	end
 
 	on :message, /^!join (.+)/ do |m, channel|
