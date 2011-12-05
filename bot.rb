@@ -52,7 +52,7 @@ bot = Cinch::Bot.new do
 
 	on :message, /^HS|HackerSchoolBot[: ]+roll(?: (.+))?$/i do |m, sides|
 		begin
-			m.reply sides ? (1 + rand(Integer(sides))) : 3
+			m.reply sides ? (1 + rand(Integer(sides))) : 4
 		rescue
 			m.reply "That is not a number."
 		end
