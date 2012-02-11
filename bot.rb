@@ -19,24 +19,25 @@ bot = Cinch::Bot.new do
 		c.plugins.plugins = [Identify]
 	end
 
-	@admin = "omni5cience"
-
 	helpers do
 		def is_admin?(user)
-			true if user.nick == @admin
+			if user.nick == "omni5cience"
+				true
+			else
+				false
+			end
 		end
 	end
 
-	on :message, /(HS|HackerSchoolBot)+[: ]+(hello|hi)/i do |m|
+	on :message, /(HS|HackerSchoolBot)+[_: ]*(hello|hi)/i do |m|
 		m.reply "Hello, #{m.user.nick}"
 	end
 
-	on :message, /(HS|HackerSchoolBot)+[: ]+help/i do |m|
-		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, roll, botherEVERYBODY(squash)"
+	on :message, /(HS|HackerSchoolBot)*[_: ]*help/i do |m|
+		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, roll, botherEVERYBODY(squash, ping, timetogo)"
 	end
 
 	on :message, /^!join (.+)/ do |m, channel|
-		bot.logger.debug is_admin?(m.user).to_s
 		m.reply("You're not my mommy!") unless is_admin?(m.user)
 		bot.join(channel) if is_admin?(m.user)
 	end
@@ -50,7 +51,7 @@ bot = Cinch::Bot.new do
 		end
 	end
 
-	on :message, /^HS|HackerSchoolBot[: ]+roll(?: (.+))?$/i do |m, sides|
+	on :message, /^HS|HackerSchoolBot[_: ]*roll(?: (.+))?$/i do |m, sides|
 		begin
 			m.reply sides ? (1 + rand(Integer(sides))) : 4
 		rescue
@@ -62,28 +63,30 @@ bot = Cinch::Bot.new do
 		m.reply "That command is obsolete use HS:botherEVERYBODY"
 	end
 
-	on :channel, /^(HS|HackerSchoolBot)[: ]+(botherEVERYBODY|squash|timeToGo)/ do |m, pre, command|
+	on :channel, /^(HS|HackerSchoolBot)[_: ]*(botherEVERYBODY|squash|timeToGo|ping)/i do |m, pre, command|
 		alertString = "Hey you!"
-		everybody = m.channel.users
-		everybody.each do |user, flags|
-			bot.logger.debug user
-			bot.logger.debug bot.nick
-			if(user.nick == m.user.nick || user.nick == bot.nick)
-				bot.logger.debug "Nick #{user.nick}"
-			else
-				alertString << " #{user.nick}:"
+		everybody = m.channel.users.keys.uniq
+
+		everybody.map! do |user|
+			unless (user.nick == m.user.nick || user.nick == bot.nick)
+				user.nick
 			end
 		end
-		case command
-		when "timeToGo"
+
+		everybody.uniq!
+		alertString << everybody.join(" ")
+
+		case command.downcase
+		when "timetogo"
 			alertString << "\nIT'S TIME TO GO!"
-		when "botherEVERYBODY"
+		when "bothereverybody"
 			alertString << "\nPay attention!"
 		when "squash"
-			alertString << "\nI LIKE SQUASH!"
+			alertString << "\nI LIKE SQUASH!\nAlso, butternut"
+		when "ping"
+			alertString << "\nPING!"
 		end
 		m.reply alertString
-		bot.logger.debug "#{m.user.nick} used the really annoying command"
 	end
 end
 
