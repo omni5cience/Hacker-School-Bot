@@ -51,7 +51,7 @@ bot = Cinch::Bot.new do
 		end
 	end
 
-	on :message, /^HS|HackerSchoolBot[_: ]*roll(?: (.+))?$/i do |m, sides|
+	on :message, /^(HS|HackerSchoolBot)[_: ]*roll(?: (.+))?$/i do |m, sides|
 		begin
 			m.reply sides ? (1 + rand(Integer(sides))) : 4
 		rescue
