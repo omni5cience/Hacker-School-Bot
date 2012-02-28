@@ -33,7 +33,7 @@ bot = Cinch::Bot.new do
 		m.reply "Hello, #{m.user.nick}"
 	end
 
-	on :message, /(HS|HackerSchoolBot)*[_: ]*help/i do |m|
+	on :message, /(HS|HackerSchoolBot)*[_: ]+help/i do |m|
 		m.reply "Prefix commands with either HS: or HackerSchoolBot: \nCurrently I know: hello, roll, botherEVERYBODY(squash, ping, timetogo)"
 	end
 
